@@ -1,7 +1,7 @@
 {
   "name": "interview-question-vault-backend",
   "version": "1.0.0",
-  "description": "Backend for Interview Question Vault",
+  "description": "Backend for Public Interview Question Vault",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

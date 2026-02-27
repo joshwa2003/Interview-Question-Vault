@@ -58,7 +58,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Interview Question Vault</h1>
+      <h1>Public Interview Question Vault</h1>
 
       <QuestionForm
         onSubmit={handleFormSubmit}
