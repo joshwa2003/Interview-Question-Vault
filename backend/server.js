@@ -8,9 +8,11 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 const MONGO_URI = process.env.MONGO_URI;
 
-// CORS — allow only your frontend domain in production
-const allowedOrigin = process.env.CORS_ORIGIN || 'http://localhost:5173';
-app.use(cors({ origin: allowedOrigin }));
+// CORS — open by default; lock down by setting CORS_ORIGIN in env
+const corsOptions = process.env.CORS_ORIGIN
+    ? { origin: process.env.CORS_ORIGIN }
+    : {}; // no restriction — allow all origins
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Health check route
