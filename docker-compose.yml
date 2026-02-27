@@ -1,4 +1,14 @@
 services:
+  # ─── MongoDB (Local, no Atlas needed) ─────────────────────────────────────
+  mongo:
+    image: mongo:7
+    container_name: iqv-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
   # ─── Backend (Node.js / Express) ──────────────────────────────────────────
   backend:
     build: ./backend
@@ -6,15 +16,18 @@ services:
     restart: unless-stopped
     ports:
       - "5001:5001"
-    env_file:
-      - ./backend/.env
+    environment:
+      - PORT=5001
+      - MONGO_URI=mongodb://mongo:27017/interview-vault
+      - CORS_ORIGIN=http://localhost:3000
+    depends_on:
+      - mongo
 
   # ─── Frontend (React / Vite → Nginx) ──────────────────────────────────────
   frontend:
     build:
       context: ./frontend
       args:
-        # Pass the API URL at build time so Vite can embed it
         VITE_API_URL: http://localhost:5001
     container_name: iqv-frontend
     restart: unless-stopped
@@ -22,3 +35,7 @@ services:
       - "3000:80"
     depends_on:
       - backend
+
+# ─── Persist MongoDB data across restarts ─────────────────────────────────
+volumes:
+  mongo_data:
