@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-// ✅ Use env variable — in dev: reads from frontend/.env
-//                          in production: set on Render dashboard
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
-
-const API_URL = `${BASE_URL}/api/questions`;
+const API_URL = `${import.meta.env.VITE_API_URL}/api/questions`;
 
 export const getQuestions = (category = '') => {
     const url = category ? `${API_URL}?category=${category}` : API_URL;
